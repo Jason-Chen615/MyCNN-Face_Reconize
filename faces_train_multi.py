@@ -116,6 +116,19 @@ def create_model(input_shape, num_classes):
 
 if __name__ == '__main__':
     try:
+        # === 添加这段代码来检测和设置GPU使用情况 ===
+        physical_devices = tf.config.list_physical_devices('GPU')
+        if physical_devices:
+            try:
+                tf.config.experimental.set_memory_growth(physical_devices[0], True)
+                print(f"GPU 设备已检测到: {physical_devices[0].name}")
+            except RuntimeError as e:
+                print(f"设置 GPU 内存增长失败: {e}")
+        else:
+            print("⚠️ 未检测到 GPU，将使用 CPU 进行训练。")
+
+
+    
         """定义参数"""
         faces_my_path = './faces_my'         # [0,0,0,1]
         faces_sxx_path = './faces_sxx'       # [0,0,1,0]
